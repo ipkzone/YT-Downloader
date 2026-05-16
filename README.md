@@ -3,9 +3,9 @@
 ```
  __   __ _____
  \ \ / /|_   _|   Build Version
-  \ V /   | |     2.0.11
+  \ V /   | |     3.0.12
    | |    | |     Enjoy.
-   |_|    |_|     @kitetsu67
+   |_|    |_|     TPP REBORN | DBGID OFFICIAL
 ```
 
 **YouTube Video & Shorts Downloader** — sebuah CLI sederhana berbasis Python untuk
@@ -18,19 +18,56 @@ sedangkan proses unduhnya menggunakan [`yt-dlp`](https://github.com/yt-dlp/yt-dl
 
 ---
 
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![yt-dlp](https://img.shields.io/badge/Powered%20by-yt--dlp-FF0000?logo=youtube&logoColor=white)](https://github.com/yt-dlp/yt-dlp)
+[![rich](https://img.shields.io/badge/UI-rich-FFB454)](https://github.com/Textualize/rich)
+[![FFmpeg](https://img.shields.io/badge/Audio%2FVideo-FFmpeg-007808?logo=ffmpeg&logoColor=white)](https://ffmpeg.org/)
+[![License](https://img.shields.io/badge/License-Personal%20Use-blue)](#-lisensi)
+
+
+---
+
+
 ## Fitur
+ 
+- **Download single Video** dari URL YouTube biasa
+- **Download single Shorts** dari URL Shorts
+- **Bulk Download Video** — paste `https://youtube.com/@user/videos`
+- **Bulk Download Shorts** — paste `https://youtube.com/@user/shorts`
+- **Listing berhalaman 10 item per page** — navigasi `n` / `p` / `g <hal>`
+- **Seleksi fleksibel**: `all`, `1,3,5-10`, atau kombinasi nomor global
+- **Durasi otomatis** di-fetch untuk halaman yang sedang tampil
+- Pilih format **MP4** (video) atau **MP3** (audio)
+- Resolusi **144p &rarr; 4K** atau **Best** untuk MP4
+- Kualitas **128 / 192 / 256 / 320 kbps** untuk MP3
+- UI terminal rapi pakai [`rich`](https://github.com/Textualize/rich): banner, tabel berwarna, progress bar, spinner
+- Ringkasan **Berhasil / Gagal** di akhir bulk download
 
-- Unduh **YouTube Video** maupun **YouTube Shorts**.
-- Format **MP4** dengan pilihan resolusi:
-  - `144p`, `240p`, `360p`, `480p`, `720p (HD)`, `1080p (Full HD)`,
-    `1440p (2K)`, `2160p (4K)`, atau **Best** (resolusi tertinggi yang tersedia).
-- Format **MP3** dengan pilihan kualitas audio:
-  - `128 kbps`, `192 kbps`, `256 kbps`, `320 kbps`.
-- **Progress bar** real-time (kecepatan, ukuran file, estimasi waktu selesai).
-- Output otomatis disimpan ke folder `downloads/` dengan format nama
-  `Judul Video [ID].ext`.
-- UI terminal yang **responsif** — tampilan menyesuaikan lebar terminal.
+---
 
+## Tampilan
+### Menu Utama
+ 
+![Menu utama](1.png)
+ 
+### Bulk Download — Listing &amp; Pagination
+ 
+Paste URL channel `/videos` atau `/shorts`, daftar tampil 10 per halaman, durasi otomatis terisi.
+ 
+![Bulk listing halaman 1](2.png)
+ 
+Ketik `n` untuk halaman berikutnya:
+ 
+![Bulk listing halaman 2](3.png)
+ 
+### Pilih Format &amp; Resolusi
+ 
+![Pilih format dan resolusi](4.png)
+ 
+### Progress Download &amp; Ringkasan
+ 
+![Progress dan ringkasan](5.png)
+ 
 ---
 
 ## Persyaratan
@@ -118,48 +155,91 @@ pip install -U yt-dlp rich
 
 Dari direktori project, jalankan:
 ```bash
-python main.py
+python yt-downloader.py
 ```
 
 Anda akan disambut oleh banner dan menu utama:
 
 ```
-1. Download YouTube Video
-2. Download YouTube Short
-3. Keluar
+1. Download YouTube Video    -> satu URL video reguler
+2. Download YouTube Short    -> satu URL shorts
+3. Bulk Download (Video)     -> paste URL .../@user/videos
+4. Bulk Download (Shorts)    -> paste URL .../@user/shorts
+5. Keluar
 ```
 
-### Alur penggunaan
-1. Pilih **1** (Video) atau **2** (Short).
-2. Masukkan **URL** YouTube saat diminta.
-3. Pilih **format**:
-   - `1` → MP4 (video)
-   - `2` → MP3 (audio saja)
-4. Pilih **resolusi** (kalau MP4) atau **kualitas audio** (kalau MP3).
-5. Tunggu proses unduhan selesai — progress bar akan menampilkan
-   kecepatan, ukuran, dan sisa waktu.
-6. File hasil unduhan akan tersimpan otomatis di folder **`downloads/`**.
-
-### Contoh
-```bash
-$ python main.py
-# pilih: 1 (Download YouTube Video)
-# URL  : https://www.youtube.com/watch?v=xxxxxxxxxxx
-# format: 1 (MP4)
-# resolusi: 6 (1080p Full HD)
-# -> Selesai. File tersimpan di folder: downloads/
-```
-
+### Contoh URL
+ 
+| Tipe | Contoh |
+|---|---|
+| Video tunggal | `https://www.youtube.com/watch?v=dQw4w9WgXcQ` |
+| Shorts tunggal | `https://www.youtube.com/shorts/abcdEFGHijk` |
+| Bulk Video (channel) | `https://www.youtube.com/@ddt-l9s/videos` |
+| Bulk Shorts (channel) | `https://www.youtube.com/@ddt-l9s/shorts` |
+ 
 ---
-
-## Struktur Folder
-
+ 
+## Navigasi Bulk Download
+ 
+Saat daftar item dari channel tampil, gunakan perintah berikut di prompt halaman:
+ 
+| Perintah | Aksi |
+|:---:|---|
+| `n` / `next` / **Enter** | Halaman berikutnya |
+| `p` / `prev` | Halaman sebelumnya |
+| `g 5` | Loncat ke halaman 5 |
+| `all` | Pilih **semua** item (lintas halaman) |
+| `1,3,5-10` | Pilih nomor tertentu (boleh lintas halaman) |
+| `q` | Batal &amp; kembali ke menu |
+ 
+> Nomor pada kolom **No** adalah **nomor global** (1 sampai total item), bukan nomor lokal per halaman. Jadi di halaman 2 (item 11&ndash;20), ketik `11,15` untuk pilih item nomor 11 dan 15.
+ 
+### Contoh Flow
+ 
 ```
-.
-├── main.py          # Script utama
-├── downloads/       # Folder output (dibuat otomatis)
-└── README.md
+1. Pilih menu 4  -> Bulk Download (Shorts)
+2. Paste URL     -> https://www.youtube.com/@ddt-l9s/shorts
+3. Tampil 10 item/halaman, total 1206 item (121 halaman)
+4. Ketik 'n' beberapa kali untuk lihat halaman berikutnya
+5. Ketik '1,11' untuk pilih item nomor 1 dan 11
+6. Pilih format MP4 -> resolusi 720p
+7. Download berjalan dengan progress bar -> ringkasan otomatis
 ```
+ 
+---
+ 
+## Format &amp; Resolusi
+ 
+### MP4 (Video)
+ 
+| No | Resolusi |
+|:---:|:---|
+| 1 | 144p |
+| 2 | 240p |
+| 3 | 360p |
+| 4 | 480p |
+| 5 | 720p (HD) |
+| 6 | 1080p (Full HD) |
+| 7 | 1440p (2K) |
+| 8 | 2160p (4K) |
+| 9 | Best (tertinggi tersedia) |
+ 
+### MP3 (Audio)
+ 
+| No | Bitrate |
+|:---:|:---|
+| 1 | 128 kbps |
+| 2 | 192 kbps |
+| 3 | 256 kbps |
+| 4 | 320 kbps (terbaik) |
+ 
+File hasil download disimpan ke folder **`downloads/`** dengan format nama:
+ 
+```
+<Judul Video> [<videoID>].<ext>
+```
+ 
+---
 
 ---
 
@@ -188,9 +268,27 @@ penggunaan tool ini.
 
 ---
 
+
+## Lisensi
+ 
+```
+Copyright (c) 2026 Iddant ID. All Rights Reserved.
+ 
+Tool ini diperbolehkan dipakai dan dimodifikasi untuk
+penggunaan pribadi non-komersial dengan tetap mencantumkan
+kredit kepada pemilik asli (Iddant ID).
+ 
+Dilarang menjual, mengubah merk, atau menghilangkan kredit
+pada banner / kode tanpa izin tertulis dari pemilik asli.
+ 
+Tool ini disediakan "AS IS" tanpa jaminan apapun.
+```
+ 
+---
+
 ## Credits
 
-- Author: **@kitetsu67** — *Iddant ID*
+- Author: *Iddant ID*
 - Library: [yt-dlp](https://github.com/yt-dlp/yt-dlp), [rich](https://github.com/Textualize/rich)
 - Tooling: [FFmpeg](https://ffmpeg.org/)
 
